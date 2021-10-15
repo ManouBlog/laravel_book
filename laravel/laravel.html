@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Laravel</title>
+</head>
+<body>
+    <h1>What is the MVC Pattern?</h1>
+    <p>
+        What Is the MVC Pattern?
+    How do you successfully implement user interfaces with Laravel and follow the
+   separation of concerns principle? The Model-View-Controller (MVC) architecture is the
+    answer. And Laravel helps you do this quite easily (Figure 1-3).
+   The workflow is simple: the user action reaches the controller from the view. The
+   controller notifies the model. Accordingly, the model updates the controller. After that,
+    the controller again updates the user.
+    </p>
+    <p>
+        That is why it is commonly used and a popular choice. The separation of concerns
+principle usually separates the application logic from the presentation layers in Laravel.
+Quite naturally, your application will become more flexible, modular, and reusable.
+Let’s imagine a social networking application where you want to view a user’s page.
+You may click a link that looks like this:
+https://example.com/home/index/username
+Here you can imagine that home is the controller, index is the method, and in the
+username section you can even pass an ID. This is pretty simple, and it takes you to the
+user’s page. How you can make your app work through an MVC model like this?
+As you might guess, you will get the user’s data from a database. The model defines
+what data your application should contain. So, it is model’s job to interact with the
+database. Now, a user’s database will be constantly evolving; changes will take place, and
+the user will make updates. If the state of this data changes, the model will usually notify
+the view. If different logic is needed to control the view, the model notifies the controller.
+    </p>
+    <p>
+        Keeping the social media app in mind, the model would specify what data a list item
+should contain, such as first name, last name, location, and so on.
+The role of the controller is critical. It contains the programming logic that updates
+the model and sometimes the view in response to input from the users of the app. In
+other social media apps, almost the same thing happens. The app could have input
+forms to allow you to post or edit or delete the data. The actions require the model to be
+updated, so the input is sent to the controller, which then acts upon the model, and the
+model then sends the updated data to the view. Now, this view can be manipulated in a
+different manner; you can use your layout template engine. In some cases, the controller
+can handle these tasks independently without needing to update the model.
+Compared to the functions of the model and the controller, the workflow of the view
+consists of simple tasks. It will define only how the list is presented to another user. It will
+also receive the data from the model to display.
+Actually, you have seen this pattern before. The data model uses some kind of
+database, probably MySQL in the LAMP technology. In such cases, your controller’s
+code is written in PHP, and in your view part, you have used a combination of HTML
+and CSS.
+    </p>
+    <h1>
+        How the MCV pattern works?
+    </h1>
+    <p>
+Imagine a portal, where your user interacts with the user interface in some way, such as
+by clicking a link or submitting a form. Now, the controller takes charge and handles the
+user input event from the user interface. Consequently, the controller notifies the model
+of the user action. Usually, the state of model changes. Suppose the controller updates
+the status of the user. It interacts with the model, and the model has no direct knowledge
+of the view. The model passes data objects to the controller, and then your controller
+generates the content with that dynamic data.
+Because of its simple iterations and the principle of separation of concerns, the MVC
+pattern is often found in web application.
+Now, the MVC pattern can be interpreted in different ways: A section of people
+thinks that the actual processing part is handled by the model, and the controller
+handles only the input data. In such interpretations, the input-processing-output flow
+is represented by Controller-Model-View; here the controller interprets the mouse and
+keyboard inputs from the user.
+    </p>
+    <p>
+        Therefore, a controller is responsible for mapping end-user actions to application
+responses, whereas a model’s actions include activating business processes or changing
+the state of the model. The user’s interactions and model’s response decide how a
+controller will respond by selecting an appropriate view.
+To summarize, an MVC pattern must have a minimum of three components, each
+of which performs its own responsibilities. Now many MVC frameworks add extra
+functionalities such as a data access object (DAO) to communicate with the relational
+database.
+In normal circumstances, the data flow between each of these components carries
+out its designated tasks; however, it is up to you to decide how this data flow is to be
+implemented. With the MVC framework, you will learn that the data is pushed by
+the controller into the view. At the same time, the controller keeps manipulating the
+data in the model. Now the question is, who is doing the real processing? The model
+or controller? Does the controller play an intermediary role, and behind the scenes,
+the model actually pulls the strings? Or, is the controller the actual processing unit
+controlling the database manipulations and representation simultaneously?
+It does not matter as long as the data flows and the pattern works. In the Laravel
+applications in this book, you will implement MVC in a way so that the controller will do
+processing jobs, controlling the model and the view simultaneously.
+When using the MVC framework, you must keep a separate DAO, and the model
+will handle the DAO as appropriate. Therefore, all SQL statements can be generated and
+executed in only one place. Data validation and manipulation can be applied in one
+place: the model. The controller will handle the request/response lifecycle, taking the
+input from the user interface and updating model accordingly. When the controller gets
+the green signal from the model, it sends the response to the view. The view is aware of
+only one thing: the display.
+    </p>
+    <h1>Setting Up Your Environment</h1>
+    <p>
+        This chapter will help you install Composer, both locally and globally, and introduce you
+to Valet, Homestead, VirtualBox, Vagrant, and Forge. You will also learn how to create a
+new project in Laravel 5.8 using your Homestead development environment.
+    </p>
+    <p>
+        Composer
+Composer is a dependency management tool in PHP. For any PHP project, you need
+to use a library of code. Composer easily manages this task on your behalf, helping you
+to declare those libraries and packages. You can also install or update any code in your
+library through Composer. Please visit https://getcomposer.org for more details.
+Without the help of the Composer dependency manager, you cannot install Laravel.
+Moreover, as you dig deeper into Laravel, you will need even more packages and libraries
+to build your application.
+You can install Composer in two ways.
+• Locally: You can download and install Composer each time for every
+project rather than running Composer globally on your system.
+Because you install Composer locally each time, you will have no
+trace of the Composer package manager on your host machine.
+• Globally: The global option is always preferable because once
+Composer is installed in your system’s bin folder, you can call it anytime
+for any project. Whether you use Windows, Debian-based Linux like
+Ubuntu, or macOS, the global option always rules over the local one.
+I’ll show how to install Composer globally in the next section and then cover the
+local option.
+    </p>
+    <p>
+        Installing Composer Globally
+For any Debian-based Linux distribution like Ubuntu or macOS, you can download
+Laravel using Composer in any folder anywhere and start working with it. If you use
+Windows, I suggest you download helper software like XAMPP that comes with the
+LAMP technology.
+Installing Composer globally on your system requires a few steps, as shown here, in
+your terminal:
+ <pre>
+    //how to install Composer globally
+    $ sudo apt-get update
+    $ sudo apt-get install curl php-cli php-mbstring git unzip
+    $ curl -sS https://getcomposer.org/installer -o composer-setup.php
+ </pre>
+    </p>
+    <p>
+        Here you need to run a short PHP script to match the secret key. Issue this command
+on your terminal:
+    </p>
+    <pre>
+        php -r "if (hash_file('SHA384', 'composer-setup.php') ===
+'669656bab3166a7aff8a7506b8cb2d1c292f042046c5a994c43155c0be6190fa0355160742
+ab2e1c88d40d5be660b410') { echo 'Installer verified'; } else { echo
+'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+    </pre>
+    <p>
+        You will get output like this:
+    </p>
+    <pre>
+        Installer verified
+    </pre>
+    <p>
+        After that, you need to move Composer to your /usr/local/bin folder. Run this
+command:
+    </p>
+    <pre>
+        $ sudo php composer-setup.php --install-dir=/usr/local/bin
+--filename=composer
+    </pre>
+    <p>
+        You will get output like this:
+    </p>
+    <pre>
+        All settings correct for using Composer
+Downloading 1.1.1...
+Composer successfully installed to: /usr/local/bin/composer
+Use it: php /usr/local/bin/composer
+    </pre>
+    <h1>Installing Laravel Globally</h1>
+    <p>
+        Next, you need to be using a LAMP server properly. This means you already have an
+operating system based on Linux, and you have the Apache web server, the MySQL
+database, and at least PHP 7.0. If this architecture is all set up, you can go ahead and
+download Laravel with a simple command like this:
+    </p>
+    <pre>
+        //code 2.1
+//installing Laravel with global composer
+composer create-project --prefer-dist laravel/laravel
+YourFirstLaravelProject
+    </pre>
+    <p>
+        You can even be choosy with a particular Laravel version such as this:
+    </p>
+    <pre>
+        //code 2.2
+composer create-project --prefer-dist laravel/laravel blog "5.7.*"
+    </pre>
+    <p>
+        Once you have Composer installed on your Windows system, you can use the same
+command to install Laravel in the C:\xampp\htdocs\Dashboard\YourPreferredFolder
+directory. You can use a terminal almost the same way as in Linux or macOS. There are
+small differences between operating systems; for example, on Linux or macOS, you use
+ls -la for a long listing, but in Windows, you use dir. These commands will tell you
+what is inside the Laravel folder.
+On all operating systems, the next command to run Laravel is as follows:
+    </p>
+    <pre>
+        //code 2.3
+//running Laravel
+$ php artisan serve
+    </pre>
+    <p>
+        You can now go to http://localhost:8000 to see what’s there.
+        The artisan command is the most powerful tool Laravel comes with. With the help
+of the artisan command, you can create all the necessary components you need for
+your application.
+    </p>
+    <p>
+        The artisan command creates the following:
+• Controller
+• Models
+• Migrations
+Chapter 2 Setting Up Your Environment
+• Seeds
+• Tests
+And there are many other components the artisan command creates. artisan also
+helps you work with your database using tools like Tinker. I will cover those features in
+later chapters.
+You already saw how artisan helps you start the web server
+    </p>
+    <pre>
+        //code 2.4
+//starting local web server in laravel
+$ php artisan serve
+    </pre>
+    <p>
+        You can also take the application into maintenance mode.
+    </p>
+    <pre>
+        //code 2.5
+//Taking application to the maintenance mode
+$ php artisan down
+    </pre>
+    <p>
+        After your maintenance work has been finished, you can issue the up command in
+the same way and again start the web server.
+Clearing the cache is also simple.
+    </p>
+    <pre>
+        //code 2.6
+//Clearing cache
+$ php artisan cache:clear
+    </pre>
+    <p>
+        These are a few examples of how Laravel makes a developer’s life easier. As you
+progress in the book, you will see artisan used frequently.
+    </p>
+    <h1>
+        How to Create a New Laravel Project
+    </h1>
+    <P>
+        You’ll name your application larastartofinish. This is an abbreviation of the full
+project name “Laravel Start to Finish.” The code directory will be mapped to the
+Homestead development environment. So, from now on, you will install your Laravel
+applications there <br>
+Staying in the /home/ss/code directory, you can install your Laravel application by
+issuing this command:
+    </P>
+    <pre>
+        //code 2.35
+$ composer create-project --prefer-dist laravel/laravel larastartofinish
+    </pre>
+    <p>
+        This will install a fresh Laravel application in your /home/ss/code directory. Next,
+issue the following command for macOS/Linux in a terminal:
+    </p>
+    <pre>
+        //code 2.36
+$ sudo rm -rf vendor/ composer.lock
+    </pre>
+    <p>
+        Basically, you have removed the Laravel dependencies that ship with
+Laravel, because you need to freshly install the new dependencies for your new
+larastartofinish application. So, issue this command:
+    </p>
+    <pre>
+        //code 2.37
+$ composer install
+    </pre>
+    <p>
+        This will again install the necessary vendor folder and composer.lock file. You have
+successfully installed a new Laravel application in the /home/ss/code directory. Now
+you can start your Homestead development environment and start working on this
+application.
+Staying in the Homestead folder, issue the following command:
+    </p>
+    <pre>
+        vagrant up --provision
+    </pre>
+    <p>
+        Next, issue the following command to start your Homestead development
+environment:
+    </p>
+    <pre>
+        vagrant ssh
+    </pre>
+    <p>
+        Then, change your directory like this so that it points to the /home/ss/code/
+larastartofinish directory:
+    </p>
+    <pre>
+        //code 2.38
+vagrant@homestead:~$ cd code/larastartofinish/
+    </pre>
+    <p>
+        Next, you do not need to start your local server here. The advantage of Homestead
+is that now you can type http://my.local in your browser and view your new Laravel
+application. Next, you can create your first controller here by issuing this command:
+    </p>
+    <pre>
+        vagrant@homestead:~/code/larastartofinish$ php artisan make:controller
+ArticleController --resource –model=Article
+Controller created successfully.
+    </pre>
+    <p>
+        vagrant@homestead:~/code/larastartofinish$ php artisan make:controller
+ArticleController --resource –model=Article
+Controller created successfully.
+    </p>
+</body>
+</html>
